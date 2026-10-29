@@ -1,0 +1,56 @@
+# Profile config, merged into ~/.hermes/profiles/<name>/config.yaml by deploy.sh.
+# Deep merge: keys here win, keys written on the box (for example by gateway setup) are kept.
+model:
+  default: <model-id>                      # one model for every profile
+  provider: <subscription-directsdk-plugin>   # the plugin that wraps the Claude Code CLI
+  base_url: process://<subscription-directsdk-plugin>
+  api_mode: chat_completions
+plugins:
+  enabled:
+    - <subscription-directsdk-plugin>
+  disabled: []
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  write_approval: false
+skills:
+  # The setup repo owns the skills and overwrites them on deploy.
+  # Staging box self-edits for approval keeps good edits from being lost silently.
+  write_approval: true
+terminal:
+  cwd: <workdir-path>                      # the git repo holding AGENTS.md
+# Cron expressions are evaluated in this timezone.
+timezone: <IANA-timezone>
+approvals:
+  mode: smart
+  # Blocked even when the owner turns approvals off.
+  deny:
+    - "*git push*--force*"
+    - "*git push* -f *"
+    - "*git reset --hard*"
+    - "*gh repo delete*"
+    - "*rm -rf /*"
+    - "*sudo *"
+    - "*curl*|*sh*"
+  smart_policy: >-
+    ESCALATE any command that <describes the irreversible or paid action for this profile>.
+tools:
+  tool_search:
+    enabled: auto
+    # This list REPLACES the Hermes default wholesale, so the default entries are repeated here.
+    defer:
+      - <default-tool-1>
+      - <default-tool-2>
+      - <default-tool-3>
+      - <default-tool-4>
+      # added for this profile, after an audit of tools its skills never call
+      - <extra-tool-1>
+      - <extra-tool-2>
+      # ...
+compression:
+  idle_compact_after_seconds: 1800
+auxiliary:
+  background_review:
+    # The post-turn review replays the whole conversation, which is a large share of cost.
+    # Turn it off when the profile's state lives in files in the workdir, not in MEMORY.md.
+    enabled: false

@@ -1,0 +1,8 @@
+# One `hermes -p <profile> cron create ...` argument list per line.
+# deploy.sh applies each line only if no job with that --name exists, so re-running is safe.
+# Cron expressions are evaluated in the profile timezone (config.yaml: timezone).
+# Positional arguments: "<cron expression>" "<prompt for the agent>".
+"0 8 * * *" "Daily digest: follow the digest skill and write it to the workdir." --name <profile>-digest --skill <digest-skill> --workdir <path> --deliver telegram
+"0 18 * * 5" "Weekly health check: follow the health skill and report findings." --name <profile>-health --skill <health-skill> --workdir <path> --deliver telegram
+# A paused job documents a shape without running it.
+"0 9 1 * *" "Monthly audit: follow the audit skill." --name <profile>-audit --skill <audit-skill> --workdir <path> --deliver telegram --paused --paused-reason "<why it is paused>"
