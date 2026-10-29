@@ -30,7 +30,7 @@ flowchart TB
   end
   subgraph EXT["External"]
     ant["Anthropic"]:::external
-    fin["Finance app"]:::external
+    fin["Personal app"]:::external
   end
 
   owner -->|"Telegram API"| gw
@@ -74,7 +74,7 @@ The asset is a shell on a VPS that holds a Claude login, bot tokens and clones o
 | OS | The agent runs as an unprivileged user without sudo. Root work uses a separate `admin` account. | A compromised agent installing software or reading other users' files. |
 | Secrets | Each profile has a `.env` at mode 600, written by `gateway setup` on the box. The repo holds placeholders that are filled at deploy. | Tokens leaking through git, chat or logs. |
 | Chat | One bot per profile. The allowlist holds exactly one user. | A stranger who finds a bot handle. |
-| Agent | Approvals gate with `mode: smart`. A `deny` glob list blocks commands unconditionally, even under `/yolo`. `cron_mode: deny` applies to autonomous crons. A `smart_policy` text escalates domain actions. | Destructive git, repo deletion, silent bookings, unattended risky work. |
+| Agent | Approvals gate with `mode: smart`. A `deny` glob list blocks commands unconditionally, even under `/yolo`. `cron_mode: deny` applies to autonomous crons. A `smart_policy` text escalates domain actions. | Destructive git, repo deletion, silent transactions, unattended risky work. |
 | Data | Per-domain PII rules sit in `SOUL.md`, `AGENTS.md` and the Mac-side `CLAUDE.md`. | Personal data spreading into repos and logs. |
 | Supply chain | Skills are overwritten from the repo on deploy. `skills.write_approval` stages self-edits instead of applying them. Box clones commit under a dedicated identity. A pre-push hook refuses default-branch pushes. | A self-modifying agent drifting, and unreviewed code reaching production. |
 
@@ -87,11 +87,11 @@ The gate has three outcomes. It allows a command, asks the owner in Telegram, or
 | Deny glob | Force push, repo delete, `git reset --hard` | All coding and travel profiles |
 | Deny glob | Merge or close a pull request, default-branch push | Coding profile |
 | Deny glob | Build commands, publish, deploy tools | Coding profile |
-| Smart policy | Booking, paying, holding a fare, submitting a form, logging in to a vendor | Travel profile |
+| Smart policy | Paying, submitting a form, logging in to a vendor | Travel profile |
 | Smart policy | Database clients pointed at a non-localhost host, migrations, branch deletion, repo settings, new dependencies | Coding profile |
 | Cron mode | `deny` for crons that run without the owner | Profiles with autonomous crons |
 
-The travel profile researches and drafts. The owner books in their own browser. The coding profile opens pull requests and never merges them. Templates for the block are in [profile config template](../templates/profile-config.example.yaml).
+The travel profile researches and drafts. The owner completes any transaction in their own browser. The coding profile opens pull requests and never merges them. Templates for the block are in [profile config template](../templates/profile-config.example.yaml).
 
 ### Data rules per profile
 
@@ -99,7 +99,7 @@ The travel profile researches and drafts. The owner books in their own browser. 
 |---|---|
 | `travel` | Never stores document numbers. |
 | `rewards` | Never stores personal data in the workdir. The app is the memory. |
-| `career` | Sensitive evidence stays on the box only and is never committed. |
+| `career` | Sensitive source material stays on the box only and is never committed. |
 | `vibecoder` | No secrets in code or chat. Local databases only. |
 
 ## What is deliberately not done
@@ -109,8 +109,8 @@ The travel profile researches and drafts. The owner books in their own browser. 
 | No Docker | Membership of the docker group is root-equivalent, so it would undo the no-sudo rule. |
 | No API keys on the box | The only model route is the subscription login. There is no key to leak or to bill. |
 | No inbound ports besides SSH | The gateway polls Telegram outbound. Nothing needs to accept connections. |
-| One planned exception | A webhook from the finance app, reached only through a Tailscale Funnel to a loopback port, signed with HMAC. Tailscale is a personal tailnet, never a work one. |
-| No auto-submit, no scraping | The career profile never submits applications and never scrapes a professional network. |
+| One planned exception | A webhook from the personal app, reached only through a Tailscale Funnel to a loopback port, signed with HMAC. Tailscale is a personal tailnet, never a work one. |
+| No auto-submit, no scraping | The career profile never submits anything on the owner's behalf and never scrapes third-party sites. |
 
 ## Known gaps
 

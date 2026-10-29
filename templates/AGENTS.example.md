@@ -11,7 +11,7 @@ Both read this file at the start of every turn. Each file below has one owner se
 ## PII rule
 Never write these into any file in this repo:
 - <document numbers>
-- <booking references>
+- <reference numbers tied to a person>
 - <card digits>
 - <full names of third parties>
 - <list more as needed>

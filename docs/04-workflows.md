@@ -80,7 +80,7 @@ Observed over five days:
 |---|---|
 | Inbox lines | 15 |
 | Handled | 11 |
-| Trips planned | 2 |
+| Plans completed | 2 |
 | Rejected pushes | 2, recovered by the pull-then-push rule |
 | Conflicts | 0 |
 

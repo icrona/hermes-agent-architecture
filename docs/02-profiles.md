@@ -75,10 +75,10 @@ The workdir sits outside the home. It is a git repo with an `AGENTS.md` contract
 | Profile | Role | Workdir | Shared with the Mac? | Autonomous crons |
 |---|---|---|---|---|
 | `default` | Plain assistant. | Home directory. | No. | None. It also hosts the webhook routes of the gateway. |
-| `career` | Resume, job digest, interview prep. | Local-only folder with a career dossier. | No. | One weekly job digest, paused until the master resume exists. |
-| `travel` | Trip packs for a couple with two nationalities. | Clone of a private repo. | Yes, the same repo is cloned on the Mac. | Per-trip crons: brief, departure, checklist reminders. |
-| `vibecoder` | Engineer-on-call for seven private side-project repos. PR-only. | Clone of a shared engineering-memory repo. | Yes. | Five: discovery, PR digest, health, audit, dependency check. |
-| `rewards` | Companion of a personal finance app, read over MCP. | Local-only cache folder. | No. | Three (alerts, digest, market watch), paused until the app-side secrets land. |
+| `career` | Personal career assistant. | Local-only folder. | No. | One weekly digest, paused until its input file exists. |
+| `travel` | Travel planning assistant. | Clone of a private repo. | Yes, the same repo is cloned on the Mac. | Per-plan crons: daily brief, milestone reminders. |
+| `vibecoder` | Engineer-on-call for the owner's private side-project repos. PR-only. | Clone of a shared engineering-memory repo. | Yes. | Five: discovery, PR digest, health, audit, dependency check. |
+| `rewards` | Companion of a personal app of the owner, read over MCP. | Local-only cache folder. | No. | Three (alerts, digest, market watch), paused until the app-side secrets land. |
 
 Each profile has one bot. The allowlist holds the owner only. See [Security](05-security.md) for the deny-lists and the approvals gate. Cron design is in [Workflows](04-workflows.md).
 
@@ -106,7 +106,7 @@ The `default` profile knows nothing about the other four. Its prompt, skills, me
 |---|---|
 | Hermes code | One install, one gateway process. |
 | The Claude login | Every profile calls the same CLI under one subscription. |
-| One Google token | Used by the profiles that read calendars or mail. |
+| One Google token | Used by the profiles that read the owner's Google data. |
 | The 5-hour usage window | All profiles draw on one Claude Max window. |
 
 The usage window is the one real coupling. A busy profile can slow the others. Measured over 7 days to 2026-10-25, all profiles together cost about $10.7 at list price.

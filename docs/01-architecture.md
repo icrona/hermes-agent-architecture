@@ -26,7 +26,7 @@ flowchart LR
     cc --- am
   end
   ant["Anthropic"]:::external
-  fin["Finance app"]:::external
+  fin["Personal app"]:::external
 
   phone -->|"Telegram API"| gw
   phone -.->|"owner pastes 'pushed'"| cc
@@ -68,7 +68,7 @@ A **profile** is a fully separate Hermes home with its own config, secrets, pers
 | GitHub | Private repos | Source of truth and shared memory | One setup repo, two shared memory repos, the app repos the coding profile maintains. |
 | Telegram | One bot per profile | The owner's UI for the box | Allowlist of exactly one user. In practice also the notification channel between Mac and box. |
 | External | Anthropic | Model inference | Billed to the owner's subscription. No API key exists anywhere. |
-| External | A personal finance app | System of record for the rewards profile | Reached over MCP with a bearer token. Alerts return as an HMAC-signed webhook. |
+| External | A personal app of the owner | System of record for the rewards profile | Reached over MCP with a bearer token. Alerts return as an HMAC-signed webhook. |
 
 ## Data flow
 
@@ -81,7 +81,7 @@ The owner talks to the box through Telegram. The box talks to Anthropic through 
 | Shared memory | Workdir clone, GitHub, Mac clone | Both | Ownership is per file or per section. See [Shared memory](03-shared-memory.md). |
 | Profile source | Mac authoring, setup repo, box clone, deploy | Mac to box | Skills are overwritten from the repo on every deploy. |
 | Code changes | Coding profile, branch, pull request | Box to GitHub | Direct pushes to default branches are refused. The owner merges. |
-| Rewards | Profile, MCP, finance app, webhook | Both | The webhook is the one planned inbound path. See [Security model](05-security.md). |
+| Rewards | Profile, MCP, personal app, webhook | Both | The webhook is the one planned inbound path. See [Security model](05-security.md). |
 | Ops | Mac, SSH, box | Mac to box | For deploys and audits. The agents never use it. |
 
 No direct application channel exists between the Mac and the box. After a push, the owner pastes a one-line "pushed" message into Telegram. The next cron sync, or an explicit pull, delivers the change. [Workflows](04-workflows.md) walks through the common cases.

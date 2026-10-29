@@ -9,7 +9,7 @@ flowchart TB
     T3["3 Workdir knowledge<br/>AGENTS.md, inbox, per-item files"]:::github
     T4["4 Mac-only memory<br/>auto-memory + HANDOVER"]:::mac
     T5["5 Source of truth<br/>setup repo"]:::github
-    T6["6 External truth<br/>app over MCP, GitHub, calendar"]:::external
+    T6["6 External truth<br/>app over MCP, GitHub, other APIs"]:::external
     T1 -->|frozen at session start| P["Model prompt"]:::box
     T3 -->|read every turn: AGENTS.md| P
     T3 -.->|read on demand| P
@@ -38,7 +38,7 @@ Hermes terms used here: a **profile** is one isolated agent with its own config,
 | 3 Workdir knowledge | A git repo per profile: `AGENTS.md`, inbox, per-item files, templates, caches | Tens of KB | Yes for two profiles, no for the other two | Where the facts live. Both agents write here. |
 | 4 Mac-only memory | Claude Code auto-memory per project dir, plus a `HANDOVER` file in the repo | Small | Memory no, `HANDOVER` yes | Process knowledge, such as how to hand work to the box. |
 | 5 Source of truth | The private setup repo: SOUL, config, skills, seeds, cron list, docs | n/a | Yes, cloned on both | Applied by `deploy.sh`. Skills are overwritten on deploy. |
-| 6 External truth | A finance app over MCP, GitHub for the coding profile, a calendar for travel | n/a | Yes, by API | For the rewards profile the app is the memory. |
+| 6 External truth | A personal app over MCP, GitHub for the coding profile, other APIs for the rest | n/a | Yes, by API | For the rewards profile the app is the memory. |
 
 Tier 1 costs 1 to 3% of a call. Tier 3 costs tokens only when a file is read.
 
@@ -46,11 +46,11 @@ Tier 1 costs 1 to 3% of a call. Tier 3 costs tokens only when a file is read.
 
 Two writers on one file produce conflicts. Each file or section therefore has one owner. Other writers may only append to places marked as shared.
 
-**Per file, in the private trip repo**
+**Per file, in the private planning repo**
 
 | Box writes | Mac writes |
 |---|---|
-| `inbox.md` lines, bookings, the log, checklist ticks | Entry rules, flights, itinerary drafts, emergency pages |
+| `inbox.md` lines, confirmations, the log, checklist ticks | Research pages, option comparisons, plan drafts, reference pages |
 
 **Per section, in the private engineering-memory repo**
 
@@ -134,7 +134,7 @@ The only zero-dependency local provider is a SQLite one with FTS5 recall. It is 
 - A `MEMORY.md` at 80% or more for two audits, after facts were moved to workdir files.
 - `session_search` is called and the log shows "not found" or the owner re-asking.
 - A third always-on writer joins, such as a second box. Git still works, but locking becomes worth discussing.
-- A profile needs cross-session reasoning over months, such as bonus history or interview trends.
+- A profile needs cross-session reasoning over months, such as a trend over many sessions.
 - The owner wants semantic search over the research corpus. Try `ripgrep` and an index file first.
 
 ## What was measured and the cheap upgrades chosen instead

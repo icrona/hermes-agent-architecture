@@ -24,7 +24,7 @@ flowchart LR
   end
   mac["Mac<br/>Claude Code"]:::mac
   ant["Anthropic"]:::external
-  fin["Finance app"]:::external
+  fin["Personal app"]:::external
   phone --> gw
   gw --> prof
   prof --- wd

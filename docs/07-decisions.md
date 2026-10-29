@@ -79,7 +79,7 @@ Keep the built-in two files per profile. Put bulky knowledge in Markdown files i
 ## ADR-4 No RAG today, a ladder when needed
 
 ### Context
-Every corpus checked is tens of KB and addressed by name. The finance app answers with typed MCP tools over SQL, which is more precise than embeddings. Session history is searchable with built-in full-text search that is never called.
+Every corpus checked is tens of KB and addressed by name. The personal app answers with typed MCP tools over SQL, which is more precise than embeddings. Session history is searchable with built-in full-text search that is never called.
 
 ### Decision
 Climb only when the lower rung fails. Structured tools first. Archived source files with grep second. Postgres full-text search in the app third. pgvector last, with embeddings computed on the Mac.
@@ -95,7 +95,7 @@ Climb only when the lower rung fails. Structured tools first. Archived source fi
 ## ADR-5 The coding agent is PR-only
 
 ### Context
-The engineering profile holds a GitHub token and works on seven private repos that deploy from their default branch.
+The engineering profile holds a GitHub token and works on several private repos that deploy from their default branch.
 
 ### Decision
 - The agent works on `hermes/*` branches and opens PRs from a template.
